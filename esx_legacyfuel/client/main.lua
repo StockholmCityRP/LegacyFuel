@@ -92,11 +92,11 @@ Citizen.CreateThread(function()
 				local fuel 	   = round(GetVehicleFuelLevel(vehicle), 1)
 				
 				if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Exit to fuel your vehicle")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Gå ut ur bilen för att tanka")
 				elseif IsFueling then
 					local position = GetEntityCoords(vehicle)
 
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Press ~g~G ~w~to cancel the fueling of your vehicle. $~r~" .. price .. " ~w~+  tax")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Tryck på ~g~G ~w~för att avbryta tankningen. $~r~" .. price .. " ~w~+  skatt")
 					DrawText3Ds(position.x, position.y, position.z + 0.5, fuel .. "%")
 					
 					DisableControlAction(0, 0, true) -- Changing view (V)
@@ -133,11 +133,11 @@ Citizen.CreateThread(function()
 						IsFueling = false
 					end
 				elseif fuel > 95.0 then
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Vehicle is too filled with gas to be fueled")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Ditt fordon är redan fulltankat!")
 				elseif cash <= 0 then
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "You currently don't have enough money on you to buy fuel with")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Du har inte tillräckligt med pengar för att tanka")
 				else
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Press ~g~G ~w~to fuel your vehicle. $~r~0.5/~w~gallon + tax")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Tryck på ~g~G ~w~för att tanka. ~r~16:-/~w~liter + skatt")
 					
 					if IsControlJustReleased(0, 47) then
 						local vehicle = GetPlayersLastVehicle()
@@ -162,7 +162,7 @@ Citizen.CreateThread(function()
 				local jerrycan = GetAmmoInPedWeapon(GetPlayerPed(-1), 883325847)
 				
 				if IsFuelingWithJerryCan then
-					DrawText3Ds(coords.x, coords.y, coords.z + 0.5, "Press ~g~G ~w~to cancel fueling the vehicle. Currently at: " .. fuel .. "% - Jerry Can: " .. jerrycan)
+					DrawText3Ds(coords.x, coords.y, coords.z + 0.5, "Tryck på ~g~G ~w~för att avbryta tankningen. Just nu har du: " .. fuel .. "% - Bensindunk: " .. jerrycan)
 
 					DisableControlAction(0, 0, true) -- Changing view (V)
 					DisableControlAction(0, 22, true) -- Jumping (SPACE)
@@ -196,7 +196,7 @@ Citizen.CreateThread(function()
 						IsFuelingWithJerryCan = false
 					end
 				else
-					DrawText3Ds(coords.x, coords.y, coords.z + 0.5, "Press ~g~G ~w~to fuel the vehicle with your gas can")
+					DrawText3Ds(coords.x, coords.y, coords.z + 0.5, "Tryck på ~g~G ~w~för att tanka fordonet med din bensindunk")
 
 					if IsControlJustReleased(0, 47) then
 						local vehicle = GetPlayersLastVehicle()
@@ -228,7 +228,7 @@ Citizen.CreateThread(function()
 			local fuelthis = integer / 10
 			local newfuel  = fuel + fuelthis
 
-			price = price + fuelthis * 0.5 * 1.1
+			price = price + fuelthis * 16.0 * 1.1
 
 			if cash >= price then
 				TriggerServerEvent('LegacyFuel:CheckServerFuelTable', plate)
